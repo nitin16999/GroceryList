@@ -17,8 +17,8 @@ function App() {
         <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
 
         <Stack.Screen name="GroceryList" component={GroceryList} options={{
-          headerLeft: null, headerStyle: { backgroundColor: '#fff' },
-          title: "Welcome", headerTitleStyle: { fontSize: 25 }, headerTintColor: '#000'
+          headerLeft: ()=> null, headerStyle: { backgroundColor: '#fff' }, headerBackVisible: false,
+          title: "GroceryList", headerTitleStyle: { fontSize: 25 }, headerTintColor: '#000'
         }} />
 
       </Stack.Navigator>
