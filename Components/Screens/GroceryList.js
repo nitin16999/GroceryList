@@ -100,10 +100,25 @@ export default function Splash() {
             // }
 
             if (Items.includes(s) == false) {
-                let s = SearchEntry.toLowerCase()
-                Items.push(s)
-                await AsyncStorage.setItem('@items', Items.toString())
-                setSearchEntry("")
+                Alert.alert(
+                    'Add New Item?',
+                    'You want to add' + s.charAt(0).toUpperCase() + s.slice(1) + ' to the list?', [{
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel'
+                    }, {
+                        text: 'Ok',
+                        onPress: async () => {
+                            let s = SearchEntry.toLowerCase()
+                            Items.push(s)
+                            await AsyncStorage.setItem('@items', Items.toString())
+                            setSearchEntry("")
+                            getData()
+                        }
+                    },], {
+                    cancelable: false
+                }
+                )
             }
             else {
                 Alert.alert("Item Already Exist", "Enter new Item into the Grocery List.")
@@ -112,7 +127,7 @@ export default function Splash() {
         else {
             Alert.alert("Item Name required", "Enter the Name into the search field to add new Item into the Grocery List.")
         }
-        getData()
+
     }
 
 
@@ -128,15 +143,32 @@ export default function Splash() {
 
     //For deleting the item from the grocery list
     async function deleteItem(Value) {
-        const id = Items.indexOf(Value)
-        if (id == 0) {
-            setdataAvailable(false)
+
+
+        Alert.alert(
+            'Delete this Item?',
+            'You want to delete ' + Value.charAt(0).toUpperCase() + Value.slice(1) + ' from the list?', [{
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel'
+            }, {
+                text: 'Ok',
+                onPress: async () => {
+                    const id = Items.indexOf(Value)
+                    if (id == 0) {
+                        setdataAvailable(false)
+                    }
+                    if (id > -1) {
+                        Items.splice(id, 1)
+                        await AsyncStorage.setItem('@items', Items.toString())
+                    }
+                    getData()
+                }
+            },], {
+            cancelable: false
         }
-        if (id > -1) {
-            Items.splice(id, 1)
-            await AsyncStorage.setItem('@items', Items.toString())
-        }
-        getData()
+        )
+
     }
 
     // If no Grocery Items Found in the list then Display the following slippet
